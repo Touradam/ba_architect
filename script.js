@@ -188,8 +188,12 @@ const statsObserver = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             const statNumbers = entry.target.querySelectorAll('.stat-number');
             statNumbers.forEach(stat => {
-                const target = parseInt(stat.textContent);
-                animateCounter(stat, target);
+                const text = stat.textContent;
+                const target = parseInt(text);
+                // Only animate if it's a number with +, skip years like "2026"
+                if (text.includes('+') && !isNaN(target)) {
+                    animateCounter(stat, target);
+                }
             });
             statsObserver.unobserve(entry.target);
         }
