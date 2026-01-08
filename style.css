@@ -318,8 +318,11 @@ section {
    ========================================== */
 
 .work-preview {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .pdf-preview-card {
@@ -603,6 +606,11 @@ section {
     .about-stats {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+    
+    .work-preview {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     .pdf-preview-card {

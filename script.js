@@ -66,7 +66,8 @@ window.addEventListener('scroll', () => {
 
 const modal = document.getElementById('pdfModal');
 const pdfViewer = document.getElementById('pdfViewer');
-const portfolioPDF = 'portfolio-1.pdf';
+const portfolioPDF = 'BA.A portfolio.pdf';
+const resumePDF = 'BA.A resume.pdf';
 
 function viewPortfolio() {
     modal.classList.add('active');
@@ -86,13 +87,25 @@ function closeModal() {
 function downloadPortfolio() {
     const link = document.createElement('a');
     link.href = portfolioPDF;
-    link.download = 'Architecture_Portfolio.pdf';
+    link.download = 'Aminata_Bah_Portfolio.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
     // Track download (optional analytics)
     console.log('Portfolio downloaded');
+}
+
+function downloadResume() {
+    const link = document.createElement('a');
+    link.href = resumePDF;
+    link.download = 'Aminata_Bah_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Track download (optional analytics)
+    console.log('Resume downloaded');
 }
 
 // Close modal on outside click
