@@ -1,18 +1,26 @@
 // ==========================================
-// GALLERY FUNCTIONALITY
+// GALLERY FUNCTIONALITY - PREMIUM EXPERIENCE
 // ==========================================
 
 let currentImageIndex = 0;
 const totalImages = 32;
 let touchStartX = 0;
 let touchEndX = 0;
+let isDragging = false;
+let startDragX = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
+let animationID = 0;
+let swipeVelocity = 0;
+let lastTouchTime = 0;
 
 // Initialize gallery
 function initGallery() {
     generateThumbnails();
     updateGalleryImage();
     setupKeyboardNavigation();
-    setupTouchNavigation();
+    setupPremiumSwipeNavigation();
+    showSwipeHint();
 }
 
 // Generate thumbnail grid
@@ -34,18 +42,43 @@ function generateThumbnails() {
     }
 }
 
-// Navigate to specific image
-function goToImage(index) {
+// Show swipe hint on first load (mobile only)
+function showSwipeHint() {
+    if (window.innerWidth <= 768) {
+        const imageContainer = document.querySelector('.gallery-image-container');
+        const hint = document.createElement('div');
+        hint.className = 'swipe-hint show';
+        hint.innerHTML = '<div class="swipe-indicator">👆 Swipe to flip pages</div>';
+        imageContainer.appendChild(hint);
+        
+        setTimeout(() => {
+            hint.classList.remove('show');
+            setTimeout(() => hint.remove(), 300);
+        }, 3000);
+    }
+}
+
+// Navigate to specific image with premium animation
+function goToImage(index, direction = 'next') {
     const galleryImage = document.getElementById('galleryImage');
+    const counter = document.querySelector('.gallery-counter');
     
-    // Fade out animation
-    galleryImage.classList.add('fade-out');
+    // Add transition class
+    galleryImage.classList.remove('fade-transition');
+    void galleryImage.offsetWidth; // Force reflow
+    galleryImage.classList.add('fade-transition');
     
-    setTimeout(() => {
-        currentImageIndex = index;
-        updateGalleryImage();
-        galleryImage.classList.remove('fade-out');
-    }, 200);
+    // Pulse counter
+    counter.classList.add('pulse');
+    setTimeout(() => counter.classList.remove('pulse'), 300);
+    
+    currentImageIndex = index;
+    updateGalleryImage();
+    
+    // Haptic feedback on mobile
+    if (navigator.vibrate) {
+        navigator.vibrate(10);
+    }
 }
 
 // Update main gallery image
@@ -62,73 +95,208 @@ function updateGalleryImage() {
     thumbnails.forEach((thumb, index) => {
         if (index === currentImageIndex) {
             thumb.classList.add('active');
-            // Scroll thumbnail into view
-            thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            // Smooth scroll thumbnail into view
+            thumb.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'nearest', 
+                inline: 'center' 
+            });
         } else {
             thumb.classList.remove('active');
         }
     });
+    
+    // Preload adjacent images
+    preloadAdjacentImages();
 }
 
-// Next image
+// Next image with direction
 function nextImage() {
-    if (currentImageIndex < totalImages - 1) {
-        goToImage(currentImageIndex + 1);
-    } else {
-        goToImage(0); // Loop back to first
-    }
+    const nextIndex = currentImageIndex < totalImages - 1 ? currentImageIndex + 1 : 0;
+    goToImage(nextIndex, 'next');
 }
 
-// Previous image
+// Previous image with direction
 function previousImage() {
-    if (currentImageIndex > 0) {
-        goToImage(currentImageIndex - 1);
-    } else {
-        goToImage(totalImages - 1); // Loop to last
-    }
+    const prevIndex = currentImageIndex > 0 ? currentImageIndex - 1 : totalImages - 1;
+    goToImage(prevIndex, 'prev');
 }
 
 // Keyboard navigation
 function setupKeyboardNavigation() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') {
+            e.preventDefault();
             nextImage();
         } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
             previousImage();
         }
     });
 }
 
-// Touch/Swipe navigation for mobile
-function setupTouchNavigation() {
+// Premium Touch/Swipe navigation
+function setupPremiumSwipeNavigation() {
     const imageContainer = document.querySelector('.gallery-image-container');
+    const wrapper = document.querySelector('.gallery-image-wrapper');
     
-    imageContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
+    if (!imageContainer || !wrapper) {
+        // If wrapper doesn't exist, create it
+        const galleryImage = document.getElementById('galleryImage');
+        const newWrapper = document.createElement('div');
+        newWrapper.className = 'gallery-image-wrapper';
+        galleryImage.parentNode.insertBefore(newWrapper, galleryImage);
+        newWrapper.appendChild(galleryImage);
+    }
+    
+    const container = document.querySelector('.gallery-image-container');
+    const imageWrapper = document.querySelector('.gallery-image-wrapper');
+    
+    // Touch start
+    container.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startDragX = e.touches[0].clientX;
+        touchStartX = e.touches[0].clientX;
+        lastTouchTime = Date.now();
+        prevTranslate = 0;
+        
+        imageWrapper.classList.add('dragging');
+        animationID = requestAnimationFrame(animation);
     }, { passive: true });
     
-    imageContainer.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
+    // Touch move
+    container.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        
+        const currentX = e.touches[0].clientX;
+        const diff = currentX - startDragX;
+        currentTranslate = diff;
+        
+        // Calculate velocity for momentum
+        const timeDiff = Date.now() - lastTouchTime;
+        swipeVelocity = diff / (timeDiff || 1);
+        lastTouchTime = Date.now();
+        
+        // Apply resistance at boundaries
+        let resistance = 1;
+        if ((currentImageIndex === 0 && diff > 0) || 
+            (currentImageIndex === totalImages - 1 && diff < 0)) {
+            resistance = 0.3;
+        }
+        
+        imageWrapper.style.transform = `translateX(${diff * resistance}px)`;
     }, { passive: true });
+    
+    // Touch end
+    container.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        touchEndX = e.changedTouches[0].clientX;
+        
+        cancelAnimationFrame(animationID);
+        imageWrapper.classList.remove('dragging');
+        imageWrapper.classList.add('animating');
+        
+        // Determine swipe with velocity consideration
+        const swipeThreshold = 50;
+        const velocityThreshold = 0.5;
+        const diff = touchStartX - touchEndX;
+        const absDiff = Math.abs(diff);
+        const absVelocity = Math.abs(swipeVelocity);
+        
+        // Strong swipe or velocity-based swipe
+        if (absDiff > swipeThreshold || absVelocity > velocityThreshold) {
+            if (diff > 0) {
+                // Swipe left - next image
+                nextImage();
+            } else {
+                // Swipe right - previous image
+                previousImage();
+            }
+        }
+        
+        // Reset transform with elastic animation
+        setTimeout(() => {
+            imageWrapper.style.transform = 'translateX(0)';
+            setTimeout(() => {
+                imageWrapper.classList.remove('animating');
+            }, 500);
+        }, 50);
+        
+        // Reset values
+        currentTranslate = 0;
+        prevTranslate = 0;
+        swipeVelocity = 0;
+    }, { passive: true });
+    
+    // Mouse events for desktop drag
+    let isMouseDown = false;
+    
+    container.addEventListener('mousedown', (e) => {
+        isMouseDown = true;
+        startDragX = e.clientX;
+        imageWrapper.classList.add('dragging');
+    });
+    
+    container.addEventListener('mousemove', (e) => {
+        if (!isMouseDown) return;
+        
+        const currentX = e.clientX;
+        const diff = currentX - startDragX;
+        
+        let resistance = 1;
+        if ((currentImageIndex === 0 && diff > 0) || 
+            (currentImageIndex === totalImages - 1 && diff < 0)) {
+            resistance = 0.3;
+        }
+        
+        imageWrapper.style.transform = `translateX(${diff * resistance}px)`;
+    });
+    
+    container.addEventListener('mouseup', (e) => {
+        if (!isMouseDown) return;
+        
+        isMouseDown = false;
+        const endX = e.clientX;
+        const diff = startDragX - endX;
+        
+        imageWrapper.classList.remove('dragging');
+        imageWrapper.classList.add('animating');
+        
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                nextImage();
+            } else {
+                previousImage();
+            }
+        }
+        
+        setTimeout(() => {
+            imageWrapper.style.transform = 'translateX(0)';
+            setTimeout(() => {
+                imageWrapper.classList.remove('animating');
+            }, 500);
+        }, 50);
+    });
+    
+    container.addEventListener('mouseleave', () => {
+        if (isMouseDown) {
+            isMouseDown = false;
+            const imageWrapper = document.querySelector('.gallery-image-wrapper');
+            imageWrapper.classList.remove('dragging');
+            imageWrapper.style.transform = 'translateX(0)';
+        }
+    });
 }
 
-function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-            // Swipe left - next image
-            nextImage();
-        } else {
-            // Swipe right - previous image
-            previousImage();
-        }
+function animation() {
+    if (isDragging) {
+        requestAnimationFrame(animation);
     }
 }
 
-// Preload adjacent images for smooth transitions
+// Preload adjacent images for instant transitions
 function preloadAdjacentImages() {
     const preloadNext = currentImageIndex < totalImages - 1 ? currentImageIndex + 1 : 0;
     const preloadPrev = currentImageIndex > 0 ? currentImageIndex - 1 : totalImages - 1;
@@ -143,14 +311,11 @@ function preloadAdjacentImages() {
 window.addEventListener('load', () => {
     initGallery();
     // Preload first few images
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
         const img = new Image();
         img.src = `images/BA.A portfolio${i}.jpg`;
     }
 });
-
-// Preload adjacent images when changing
-document.getElementById('galleryImage')?.addEventListener('load', preloadAdjacentImages);
 
 // ==========================================
 // SMOOTH SCROLLING & NAVIGATION
