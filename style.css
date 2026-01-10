@@ -12,12 +12,14 @@
     --color-primary: #1a1a1a;
     --color-secondary: #2d2d2d;
     --color-accent: #d4a574;
+    --color-accent-warm: #714940;
     --color-text: #1a1a1a;
     --color-text-light: #6b6b6b;
-    --color-border: #e8e8e8;
-    --color-bg: #fefefe;
-    --color-bg-alt: #f8f8f8;
-    --color-bg-dark: #f0f0f0;
+    --color-text-warm: #714940;
+    --color-border: #ede8e3;
+    --color-bg: #fffcf9;
+    --color-bg-alt: #f9f6f2;
+    --color-bg-dark: #f2ede8;
     
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -145,7 +147,7 @@ body {
     justify-content: center;
     position: relative;
     padding: 8rem 3rem;
-    background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 50%, #f8f8f8 100%);
+    background: linear-gradient(135deg, #f9f6f2 0%, #fffcf9 50%, #f9f6f2 100%);
     overflow: hidden;
 }
 
@@ -157,8 +159,8 @@ body {
     right: 0;
     bottom: 0;
     background-image: 
-        linear-gradient(90deg, rgba(212, 165, 116, 0.03) 1px, transparent 1px),
-        linear-gradient(rgba(212, 165, 116, 0.03) 1px, transparent 1px);
+        linear-gradient(90deg, rgba(212, 165, 116, 0.04) 1px, transparent 1px),
+        linear-gradient(rgba(212, 165, 116, 0.04) 1px, transparent 1px);
     background-size: 80px 80px;
     z-index: 0;
 }
@@ -185,6 +187,10 @@ body {
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
 }
 
+.highlight-ba {
+    color: var(--color-accent-warm);
+}
+
 .title-line {
     display: block;
     overflow: hidden;
@@ -192,9 +198,9 @@ body {
 
 .hero-subtitle {
     font-size: clamp(1rem, 2vw, 1.25rem);
-    color: var(--color-text-light);
+    color: var(--color-text-warm);
     margin-bottom: 3rem;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.02em;
 }
 
@@ -321,8 +327,8 @@ section {
 
 .section-number {
     font-size: 0.875rem;
-    color: var(--color-text-light);
-    font-weight: 300;
+    color: var(--color-accent-warm);
+    font-weight: 400;
     letter-spacing: 0.1em;
 }
 
@@ -362,9 +368,20 @@ section {
     right: -200px;
     width: 400px;
     height: 400px;
-    border: 1px solid rgba(212, 165, 116, 0.1);
+    border: 1px solid rgba(212, 165, 116, 0.15);
     border-radius: 50%;
     transform: translateY(-50%);
+}
+
+.about::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgba(113, 73, 64, 0.1);
+    border-radius: 50%;
 }
 
 .about-content {
@@ -376,7 +393,7 @@ section {
 .about-text {
     font-size: 1.25rem;
     line-height: 1.8;
-    color: var(--color-text-light);
+    color: var(--color-text-warm);
     max-width: 800px;
 }
 
@@ -419,7 +436,7 @@ section {
 
 .stat-label {
     font-size: 0.9rem;
-    color: var(--color-text-light);
+    color: var(--color-text-warm);
     letter-spacing: 0.05em;
 }
 
@@ -428,7 +445,7 @@ section {
    ========================================== */
 
 .gallery {
-    background: white;
+    background: linear-gradient(180deg, #fffcf9 0%, #ffffff 50%, #fffcf9 100%);
     padding: 8rem 0;
     overflow: hidden;
 }
@@ -734,7 +751,7 @@ section {
     gap: 3rem;
     margin-top: 3rem;
     padding: 2rem;
-    background: linear-gradient(135deg, var(--color-bg-alt) 0%, white 100%);
+    background: linear-gradient(135deg, #f9f6f2 0%, #fffcf9 100%);
     border-radius: 8px;
     border: 1px solid var(--color-border);
 }
@@ -744,7 +761,7 @@ section {
     align-items: center;
     gap: 0.8rem;
     font-size: 0.9rem;
-    color: var(--color-text-light);
+    color: var(--color-text-warm);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 500;
@@ -835,8 +852,20 @@ section {
    ========================================== */
 
 .contact {
-    background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+    background: linear-gradient(180deg, #fffcf9 0%, #f9f6f2 100%);
     position: relative;
+}
+
+.contact::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(212, 165, 116, 0.1);
+    border-radius: 50%;
+    z-index: 0;
 }
 
 .contact-content {
@@ -888,7 +917,7 @@ section {
 
 .footer-text {
     text-align: center;
-    color: var(--color-text-light);
+    color: var(--color-text-warm);
     font-size: 0.9rem;
 }
 
