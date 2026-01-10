@@ -1,4 +1,158 @@
 // ==========================================
+// GALLERY FUNCTIONALITY
+// ==========================================
+
+let currentImageIndex = 0;
+const totalImages = 32;
+let touchStartX = 0;
+let touchEndX = 0;
+
+// Initialize gallery
+function initGallery() {
+    generateThumbnails();
+    updateGalleryImage();
+    setupKeyboardNavigation();
+    setupTouchNavigation();
+}
+
+// Generate thumbnail grid
+function generateThumbnails() {
+    const thumbnailContainer = document.getElementById('galleryThumbnails');
+    for (let i = 0; i < totalImages; i++) {
+        const thumb = document.createElement('div');
+        thumb.className = 'gallery-thumb';
+        if (i === 0) thumb.classList.add('active');
+        
+        const img = document.createElement('img');
+        img.src = `images/BA.A portfolio${i}.jpg`;
+        img.alt = `Portfolio page ${i + 1}`;
+        img.loading = 'lazy';
+        
+        thumb.appendChild(img);
+        thumb.onclick = () => goToImage(i);
+        thumbnailContainer.appendChild(thumb);
+    }
+}
+
+// Navigate to specific image
+function goToImage(index) {
+    const galleryImage = document.getElementById('galleryImage');
+    
+    // Fade out animation
+    galleryImage.classList.add('fade-out');
+    
+    setTimeout(() => {
+        currentImageIndex = index;
+        updateGalleryImage();
+        galleryImage.classList.remove('fade-out');
+    }, 200);
+}
+
+// Update main gallery image
+function updateGalleryImage() {
+    const galleryImage = document.getElementById('galleryImage');
+    const currentPage = document.getElementById('currentPage');
+    
+    galleryImage.src = `images/BA.A portfolio${currentImageIndex}.jpg`;
+    galleryImage.alt = `Portfolio page ${currentImageIndex + 1}`;
+    currentPage.textContent = currentImageIndex + 1;
+    
+    // Update active thumbnail
+    const thumbnails = document.querySelectorAll('.gallery-thumb');
+    thumbnails.forEach((thumb, index) => {
+        if (index === currentImageIndex) {
+            thumb.classList.add('active');
+            // Scroll thumbnail into view
+            thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+            thumb.classList.remove('active');
+        }
+    });
+}
+
+// Next image
+function nextImage() {
+    if (currentImageIndex < totalImages - 1) {
+        goToImage(currentImageIndex + 1);
+    } else {
+        goToImage(0); // Loop back to first
+    }
+}
+
+// Previous image
+function previousImage() {
+    if (currentImageIndex > 0) {
+        goToImage(currentImageIndex - 1);
+    } else {
+        goToImage(totalImages - 1); // Loop to last
+    }
+}
+
+// Keyboard navigation
+function setupKeyboardNavigation() {
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+            nextImage();
+        } else if (e.key === 'ArrowLeft') {
+            previousImage();
+        }
+    });
+}
+
+// Touch/Swipe navigation for mobile
+function setupTouchNavigation() {
+    const imageContainer = document.querySelector('.gallery-image-container');
+    
+    imageContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    imageContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swipe left - next image
+            nextImage();
+        } else {
+            // Swipe right - previous image
+            previousImage();
+        }
+    }
+}
+
+// Preload adjacent images for smooth transitions
+function preloadAdjacentImages() {
+    const preloadNext = currentImageIndex < totalImages - 1 ? currentImageIndex + 1 : 0;
+    const preloadPrev = currentImageIndex > 0 ? currentImageIndex - 1 : totalImages - 1;
+    
+    [preloadNext, preloadPrev].forEach(index => {
+        const img = new Image();
+        img.src = `images/BA.A portfolio${index}.jpg`;
+    });
+}
+
+// Initialize gallery when page loads
+window.addEventListener('load', () => {
+    initGallery();
+    // Preload first few images
+    for (let i = 0; i < 3; i++) {
+        const img = new Image();
+        img.src = `images/BA.A portfolio${i}.jpg`;
+    }
+});
+
+// Preload adjacent images when changing
+document.getElementById('galleryImage')?.addEventListener('load', preloadAdjacentImages);
+
+// ==========================================
 // SMOOTH SCROLLING & NAVIGATION
 // ==========================================
 
