@@ -1132,6 +1132,7 @@ section {
         bottom: 15px;
         padding: 0.6rem 1.3rem;
         font-size: 0.85rem;
+        display: none;
     }
     
     .gallery-counter #currentPage {
