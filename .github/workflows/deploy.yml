@@ -13,8 +13,24 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     
+    - name: Verify secrets are set
+      run: |
+        if [ -z "${{ secrets.FTP_SERVER }}" ]; then
+          echo "ERROR: FTP_SERVER secret is not set!"
+          exit 1
+        fi
+        if [ -z "${{ secrets.FTP_USERNAME }}" ]; then
+          echo "ERROR: FTP_USERNAME secret is not set!"
+          exit 1
+        fi
+        if [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
+          echo "ERROR: FTP_PASSWORD secret is not set!"
+          exit 1
+        fi
+        echo "All secrets are properly configured!"
+    
     - name: Deploy to Hostinger via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      uses: SamKirkland/FTP-Deploy-Action@4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
@@ -27,4 +43,3 @@ jobs:
           **/package*.json
           **/.github/**
           **/README.md
-
