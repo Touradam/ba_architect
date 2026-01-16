@@ -27,7 +27,7 @@ jobs:
           echo "ERROR: FTP_PASSWORD secret is not set!"
           exit 1
         fi
-        echo "All secrets are properly configured!"
+        echo "✅ All secrets are properly configured!"
     
     - name: Deploy to Hostinger via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.4
@@ -35,7 +35,8 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /public_html/
+        server-dir: ${{ secrets.FTP_SERVER_DIR || '/public_html/' }}
+        log-level: verbose
         exclude: |
           **/.git*
           **/.git*/**
@@ -43,3 +44,4 @@ jobs:
           **/package*.json
           **/.github/**
           **/README.md
+          **/portfolio-nextjs/**
