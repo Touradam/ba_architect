@@ -3,7 +3,7 @@
 // ==========================================
 
 let currentImageIndex = 0;
-const totalImages = 32;
+const totalImages = 16;
 let touchStartX = 0;
 let touchEndX = 0;
 let isDragging = false;
