@@ -7,14 +7,20 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav">
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <nav class="nav" aria-label="Main navigation">
         <div class="nav-container">
-            <div class="logo">Aminata Bah</div>
-            <div class="nav-links">
+            <a href="#" class="logo">Aminata Bah</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <div class="nav-links" id="navMenu">
                 <a href="#about" class="nav-link">About</a>
                 <a href="#gallery" class="nav-link">Gallery</a>
                 <a href="#experience" class="nav-link">Experience</a>
@@ -23,292 +29,292 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                <span class="title-line">Aminata Bah</span>
-                <span class="title-line"><span class="highlight-ba">BA</span> Architect</span>
-            </h1>
-            <p class="hero-subtitle">Architecture Student | 4th Year | Drury University | Master of Architecture</p>
-            <div class="hero-actions">
-                <a href="#gallery" class="btn btn-primary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    View Portfolio
-                </a>
-                <button class="btn btn-secondary" onclick="downloadPortfolio()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    Download Portfolio
-                </button>
-                <button class="btn btn-secondary" onclick="downloadResume()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                    </svg>
-                    Download Resume
-                </button>
+    <main id="main">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-bg" aria-hidden="true">
+                <div class="hero-spotlight" id="heroSpotlight"></div>
+                <canvas class="hero-particles" id="heroParticles" aria-hidden="true"></canvas>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-line"></div>
-            <span class="scroll-text">Scroll</span>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">01</span>
-                <h2 class="section-title">About</h2>
-            </div>
-            <div class="about-content">
-                <p class="about-text">
-                    Motivated architecture student with a strong passion for sustainable design and innovative solutions.
-                    Eager to apply my technical skills in Revit, Twinmotion and Adobe Creative Suite, while gaining
-                    practical experience in project development and collaborative teamwork. Seeking an internship opportunity
-                    to contribute to inspiring architectural projects and further develop my design and problem-solving abilities.
-                </p>
-                <p class="about-text" style="margin-top: 1.5rem;">
-                    Currently pursuing a Master of Architecture at Drury University with minors in Business Administration 
-                    and French. Completed a semester abroad at École nationale supérieure d'architecture Val de Seine in 
-                    Paris, France (2025), gaining international perspective on architectural design and sustainable practices.
-                </p>
-                <div class="about-stats">
-                    <div class="stat">
-                        <h3 class="stat-number">15+</h3>
-                        <p class="stat-label">Academic Projects</p>
-                    </div>
-                    <div class="stat">
-                        <h3 class="stat-number">2027</h3>
-                        <p class="stat-label">Expected Graduation</p>
-                    </div>
-                    <div class="stat">
-                        <h3 class="stat-number">10+</h3>
-                        <p class="stat-label">Design Software</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery" class="gallery">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">02</span>
-                <h2 class="section-title">Portfolio Gallery</h2>
-            </div>
-
-            <div class="gallery-viewer">
-                <div class="gallery-main">
-                    <button class="gallery-nav gallery-prev" onclick="previousImage()" aria-label="Previous image">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
+            <div class="hero-content reveal">
+                <p class="eyebrow">Architecture Portfolio</p>
+                <h1 class="hero-title" id="hero-title">
+                    <span class="title-line">Aminata Bah</span>
+                    <span class="title-line"><span class="highlight-ba">BA</span> Architect</span>
+                </h1>
+                <p class="hero-subtitle">Architecture Student | 4th Year | Drury University | Master of Architecture</p>
+                <div class="hero-actions">
+                    <a href="#gallery" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
                         </svg>
+                        View Portfolio
+                    </a>
+                    <button class="btn btn-secondary" onclick="downloadPortfolio()" type="button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download Portfolio
                     </button>
-
-                    <div class="gallery-image-container">
-                        <div class="gallery-image-wrapper">
-                            <img id="galleryImage" src="images/BA.A portfolio0.jpg" alt="Portfolio page 1" class="gallery-image">
-                        </div>
-                        <div class="gallery-counter">
-                            <span id="currentPage">1</span> / <span id="totalPages">16</span>
-                        </div>
-                    </div>
-
-                    <button class="gallery-nav gallery-next" onclick="nextImage()" aria-label="Next image">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
+                    <button class="btn btn-secondary" onclick="downloadResume()" type="button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
                         </svg>
+                        Download Resume
                     </button>
                 </div>
-
-                <div class="gallery-thumbnails" id="galleryThumbnails">
-                    <!-- Thumbnails will be generated by JavaScript -->
-                </div>
-
-                <div class="gallery-instructions">
-                    <span class="instruction-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        </svg>
-                        Click arrows
-                    </span>
-                    <span class="instruction-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                            <polyline points="15 18 21 12 15 6"></polyline>
-                        </svg>
-                        Use arrow keys
-                    </span>
-                    <span class="instruction-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2v20M2 12h20"></path>
-                        </svg>
-                        Swipe on mobile
-                    </span>
-                </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section id="experience" class="experience">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">03</span>
-                <h2 class="section-title">Experience & Skills</h2>
+            <div class="scroll-indicator" aria-hidden="true">
+                <div class="scroll-line"></div>
+                <span class="scroll-text">Scroll</span>
             </div>
-            <div class="experience-content">
-                <div class="experience-grid">
-                    <div class="experience-card">
-                        <h3 class="experience-title">Software & Technical Skills</h3>
-                        <div class="skills-category">
-                            <h4>3D Modeling</h4>
-                            <div class="skills-tags">
-                                <span class="skill-tag">Revit</span>
-                                <span class="skill-tag">Twinmotion</span>
-                            </div>
+        </section>
+
+        <section id="about" class="about section-raised">
+            <div class="container">
+                <header class="section-header reveal">
+                    <span class="section-number eyebrow">01</span>
+                    <h2 class="section-title">About</h2>
+                </header>
+                <div class="about-content">
+                    <p class="about-text reveal reveal-delay-1">
+                        Motivated architecture student with a strong passion for sustainable design and innovative solutions.
+                        Eager to apply my technical skills in Revit, Twinmotion and Adobe Creative Suite, while gaining
+                        practical experience in project development and collaborative teamwork. Seeking an internship opportunity
+                        to contribute to inspiring architectural projects and further develop my design and problem-solving abilities.
+                    </p>
+                    <p class="about-text reveal reveal-delay-2">
+                        Currently pursuing a Master of Architecture at Drury University with minors in Business Administration
+                        and French. Completed a semester abroad at École nationale supérieure d'architecture Val de Seine in
+                        Paris, France (2025), gaining international perspective on architectural design and sustainable practices.
+                    </p>
+                    <div class="about-stats reveal-stagger">
+                        <div class="stat pill">
+                            <h3 class="stat-number">15+</h3>
+                            <p class="stat-label">Academic Projects</p>
                         </div>
-                        <div class="skills-category">
-                            <h4>Graphic Design</h4>
-                            <div class="skills-tags">
-                                <span class="skill-tag">Adobe Photoshop</span>
-                                <span class="skill-tag">Adobe Illustrator</span>
-                                <span class="skill-tag">Adobe InDesign</span>
-                            </div>
+                        <div class="stat pill">
+                            <h3 class="stat-number">2027</h3>
+                            <p class="stat-label">Expected Graduation</p>
                         </div>
-                        <div class="skills-category">
-                            <h4>Fabrication</h4>
-                            <div class="skills-tags">
-                                <span class="skill-tag">3D Printing</span>
-                                <span class="skill-tag">Laser Cutting</span>
-                            </div>
-                        </div>
-                        <div class="skills-category">
-                            <h4>Other Skills</h4>
-                            <div class="skills-tags">
-                                <span class="skill-tag">Excel</span>
-                                <span class="skill-tag">Time Management</span>
-                                <span class="skill-tag">Problem Solving</span>
-                                <span class="skill-tag">Team Collaboration</span>
-                                <span class="skill-tag">Critical Thinking</span>
-                            </div>
-                        </div>
-                        <div class="skills-category">
-                            <h4>Languages</h4>
-                            <div class="skills-tags">
-                                <span class="skill-tag">English</span>
-                                <span class="skill-tag">French</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="experience-card">
-                        <h3 class="experience-title">Achievements & Activities</h3>
-                        <div class="experience-item">
-                            <h4>Academic Honors</h4>
-                            <ul class="experience-list">
-                                <li>Dean's List</li>
-                                <li>Athletic Award</li>
-                                <li>OSHA Certificate</li>
-                            </ul>
-                        </div>
-                        <div class="experience-item">
-                            <h4>Extracurricular Activities</h4>
-                            <ul class="experience-list">
-                                <li>AIAS General Member</li>
-                                <li>AIAS Nexus Design Competition (2025)</li>
-                                <li>Drury French Club President</li>
-                                <li>Pickleball</li>
-                            </ul>
+                        <div class="stat pill">
+                            <h3 class="stat-number">10+</h3>
+                            <p class="stat-label">Design Software</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">04</span>
-                <h2 class="section-title">Get In Touch</h2>
-            </div>
-            <div class="contact-content">
-                <p class="contact-text">
-                    I'm currently seeking a summer 2026 internship opportunity where I can apply my design skills 
-                    and learn from experienced professionals. Feel free to reach out to discuss potential opportunities 
-                    or connect.
-                </p>
-                <div class="contact-links">
-                    <a href="tel:+14174508758" class="contact-link">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                        </svg>
-                        (417) 450-8758
-                    </a>
-                    <a href="mailto:aminatabah01012018@icloud.com" class="contact-link">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        aminatabah01012018@icloud.com
-                    </a>
-                    <a href="https://www.linkedin.com/in/aminata-bah-bb6398399/?trk=contact-info" class="contact-link" target="_blank" rel="noopener noreferrer">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                            <rect x="2" y="9" width="4" height="12"></rect>
-                            <circle cx="4" cy="4" r="2"></circle>
-                        </svg>
-                        LinkedIn Profile
-                    </a>
+        <section id="gallery" class="gallery">
+            <div class="container">
+                <header class="section-header reveal">
+                    <span class="section-number eyebrow">02</span>
+                    <h2 class="section-title">Portfolio Gallery</h2>
+                </header>
+
+                <div class="gallery-viewer reveal reveal-delay-1">
+                    <div class="gallery-main">
+                        <button class="gallery-nav gallery-prev" onclick="previousImage()" aria-label="Previous image" type="button">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
+
+                        <div class="gallery-image-container card" data-tilt>
+                            <div class="gallery-image-wrapper">
+                                <img id="galleryImage" src="images/BA.A portfolio0.jpg" alt="Portfolio page 1" class="gallery-image">
+                            </div>
+                            <div class="gallery-counter" aria-live="polite">
+                                <span id="currentPage">1</span> / <span id="totalPages">16</span>
+                            </div>
+                        </div>
+
+                        <button class="gallery-nav gallery-next" onclick="nextImage()" aria-label="Next image" type="button">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="gallery-thumbnails" id="galleryThumbnails" role="tablist" aria-label="Portfolio thumbnails">
+                        <!-- Thumbnails generated by JavaScript -->
+                    </div>
+
+                    <div class="gallery-instructions card">
+                        <span class="instruction-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            </svg>
+                            Click arrows
+                        </span>
+                        <span class="instruction-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                                <polyline points="15 18 21 12 15 6"></polyline>
+                            </svg>
+                            Use arrow keys
+                        </span>
+                        <span class="instruction-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M12 2v20M2 12h20"></path>
+                            </svg>
+                            Swipe on mobile
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
+        <section id="experience" class="experience section-raised">
+            <div class="container">
+                <header class="section-header reveal">
+                    <span class="section-number eyebrow">03</span>
+                    <h2 class="section-title">Experience &amp; Skills</h2>
+                </header>
+                <div class="experience-content">
+                    <div class="experience-grid reveal-stagger">
+                        <article class="experience-card card" data-tilt>
+                            <h3 class="experience-title">Software &amp; Technical Skills</h3>
+                            <div class="skills-category">
+                                <h4>3D Modeling</h4>
+                                <div class="skills-tags">
+                                    <span class="skill-tag">Revit</span>
+                                    <span class="skill-tag">Twinmotion</span>
+                                </div>
+                            </div>
+                            <div class="skills-category">
+                                <h4>Graphic Design</h4>
+                                <div class="skills-tags">
+                                    <span class="skill-tag">Adobe Photoshop</span>
+                                    <span class="skill-tag">Adobe Illustrator</span>
+                                    <span class="skill-tag">Adobe InDesign</span>
+                                </div>
+                            </div>
+                            <div class="skills-category">
+                                <h4>Fabrication</h4>
+                                <div class="skills-tags">
+                                    <span class="skill-tag">3D Printing</span>
+                                    <span class="skill-tag">Laser Cutting</span>
+                                </div>
+                            </div>
+                            <div class="skills-category">
+                                <h4>Other Skills</h4>
+                                <div class="skills-tags">
+                                    <span class="skill-tag">Excel</span>
+                                    <span class="skill-tag">Time Management</span>
+                                    <span class="skill-tag">Problem Solving</span>
+                                    <span class="skill-tag">Team Collaboration</span>
+                                    <span class="skill-tag">Critical Thinking</span>
+                                </div>
+                            </div>
+                            <div class="skills-category">
+                                <h4>Languages</h4>
+                                <div class="skills-tags">
+                                    <span class="skill-tag">English</span>
+                                    <span class="skill-tag">French</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="experience-card card" data-tilt>
+                            <h3 class="experience-title">Achievements &amp; Activities</h3>
+                            <div class="experience-item">
+                                <h4>Academic Honors</h4>
+                                <ul class="experience-list">
+                                    <li>Dean's List</li>
+                                    <li>Athletic Award</li>
+                                    <li>OSHA Certificate</li>
+                                </ul>
+                            </div>
+                            <div class="experience-item">
+                                <h4>Extracurricular Activities</h4>
+                                <ul class="experience-list">
+                                    <li>AIAS General Member</li>
+                                    <li>AIAS Nexus Design Competition (2025)</li>
+                                    <li>Drury French Club President</li>
+                                    <li>Pickleball</li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <header class="section-header reveal">
+                    <span class="section-number eyebrow">04</span>
+                    <h2 class="section-title">Get In Touch</h2>
+                </header>
+                <div class="contact-content">
+                    <p class="contact-text reveal reveal-delay-1">
+                        I'm currently seeking a summer 2026 internship opportunity where I can apply my design skills
+                        and learn from experienced professionals. Feel free to reach out to discuss potential opportunities
+                        or connect.
+                    </p>
+                    <div class="contact-links reveal-stagger">
+                        <a href="tel:+14174508758" class="contact-link card">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            (417) 450-8758
+                        </a>
+                        <a href="mailto:aminatabah01012018@icloud.com" class="contact-link card">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            aminatabah01012018@icloud.com
+                        </a>
+                        <a href="https://www.linkedin.com/in/aminata-bah-bb6398399/?trk=contact-info" class="contact-link card" target="_blank" rel="noopener noreferrer">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                            LinkedIn Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <footer class="footer">
         <div class="container">
             <p class="footer-text">&copy; 2026 Aminata Bah. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- PDF Viewer Modal -->
-    <div id="pdfModal" class="modal">
-        <div class="modal-content">
+    <div id="pdfModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-content card">
             <div class="modal-header">
-                <h3 class="modal-title">Portfolio</h3>
+                <h3 class="modal-title" id="modalTitle">Portfolio</h3>
                 <div class="modal-actions">
-                    <button class="modal-btn" onclick="downloadPortfolio()" title="Download Portfolio">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <button class="modal-btn" onclick="downloadPortfolio()" type="button" aria-label="Download Portfolio">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
                     </button>
-                    <button class="modal-btn" onclick="downloadResume()" title="Download Resume">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <button class="modal-btn" onclick="downloadResume()" type="button" aria-label="Download Resume">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
                             <line x1="16" y1="17" x2="8" y2="17"></line>
                         </svg>
                     </button>
-                    <button class="modal-btn" onclick="closeModal()" title="Close">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <button class="modal-btn" onclick="closeModal()" type="button" aria-label="Close dialog">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
@@ -316,7 +322,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+                <iframe id="pdfViewer" src="" title="Portfolio PDF viewer"></iframe>
             </div>
         </div>
     </div>
@@ -324,4 +330,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
